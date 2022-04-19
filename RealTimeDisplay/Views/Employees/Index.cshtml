@@ -1,0 +1,70 @@
+﻿<div class="text-center">
+   <ul id ="ul">
+
+   </ul>
+</div>
+
+<table class="table table-hover table-dark w-50 m-auto">
+    <thead>
+      <tr>
+        <!-- <th scope="col">#</th> -->
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Mobile Number</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Address</th>
+      </tr>
+    </thead>
+    <tbody id = "tableBody">
+      @*<tr id="trToAppend">
+        
+      </tr>*@
+    </tbody>
+  </table>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <script>
+        con = new signalR.HubConnectionBuilder().withUrl("/employee").build()
+
+        con.start();
+
+        con.on("newemp", function(fn, ln, m, s, addr){
+            let body =document.getElementById("tableBody");
+            let tr = document.createElement("tr");
+            
+            // Create table data 
+            let fname = document.createElement("td");
+            fname.innerHTML = fn;
+
+            let lname = document.createElement("td");
+            lname.innerHTML = ln;
+
+            let mobile =document.createElement("td");
+            mobile.innerHTML = m
+
+            let salary = document.createElement("td");
+            salary.innerHTML = s
+
+            let address = document.createElement("td");
+            address.innerHTML = addr;
+
+            // Append table data to row
+            tr.appendChild(fname)
+            tr.appendChild(lname)
+            tr.appendChild(mobile)
+            tr.appendChild(salary)
+            tr.appendChild(address)
+
+            // Append rwo tow to body
+            body.appendChild(tr);
+
+            //item.appendChild(
+            //    document.createTextNode(fn+":"+ln+":"+mobile+":"+salary+":"+address));
+            //document.getElementById("ul").appendChild(item);
+        });
+
+
+    </script>
+}

@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <input type="text" id="msg" />
+    <input type="button" value ="send" onclick="send()" />
+
+    <ul id="ul">
+
+    </ul>
+
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <script>
+        name =prompt("enter your name");
+        var con = new signalR.HubConnectionBuilder().withUrl("/chat").build();
+
+        con.start();
+
+        con.on("sendmsg",function(name, msg){
+                var item =document.createElement("li");
+            item.appendChild(document.createTextNode(name+":"+msg));
+            document.getElementById("ul").appendChild(item);
+        
+        })
+
+        function send(){
+            con.invoke("sendmassage",name, document.getElementById("msg").value )
+        }
+        
+    </script>
+}
